@@ -1,7 +1,7 @@
 import { Lead } from "@prisma/client";
 import { CampaignLeadStatus } from "./CampaignsRepository";
 
-type LeadStatus =
+export type LeadStatus =
   | "New"
   | "Contacted"
   | "Qualified"
