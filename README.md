@@ -16,8 +16,8 @@
 
 <p align="center">
  <a href="#started">Começando</a> • 
-  <a href="#routes">Endpoints da API</a> •
-  <a href="#folders">Pastas da Aplicação</a> •
+  <a href="#routes">Endpoints da API</a>
+<!--   <a href="#folders">Pastas da Aplicação</a> • -->
 <!--  <a href="#colab">Desenvolvedor</a> -->
 </p>
 
