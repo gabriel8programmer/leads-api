@@ -1,4 +1,5 @@
 import { HttpError } from "../errors/HttpError";
+import { CampaignLeadStatus } from "../repositories/CampaignsRepository";
 import {
   CreateLeadParams,
   LeadsRepository,
@@ -10,7 +11,7 @@ interface LeadsPaginatedParams {
   page?: number;
   pageSize?: number;
   name?: string;
-  status?: LeadStatus;
+  status?: LeadStatus | CampaignLeadStatus;
   sortBy?: "name" | "status" | "createdAt";
   order?: "asc" | "desc";
 }
@@ -18,20 +19,40 @@ interface LeadsPaginatedParams {
 export class LeadsService {
   constructor(private readonly leadsRepository: LeadsRepository) {}
 
-  async getAllLeadsPaginated(params: LeadsPaginatedParams) {
-    const { page = 1, pageSize = 10, name, status, sortBy = "name", order = "asc" } = params;
+  async getAllLeadsPaginated(params: {
+    paginateParams: LeadsPaginatedParams;
+    filter?: Pick<LeadWhereParams, "campaignId" | "groupId" | "campaignStatus">;
+    include?: {
+      groups?: boolean;
+      campaigns?: boolean;
+    };
+  }) {
+    const {
+      page = 1,
+      pageSize = 10,
+      name,
+      status,
+      sortBy = "name",
+      order = "asc",
+    } = params.paginateParams;
 
     const limit = pageSize;
     const offset = (page - 1) * limit;
 
-    const where: LeadWhereParams = {};
-
-    console.log(where);
+    const where: LeadWhereParams = { ...params.filter };
 
     if (name) where.name = { like: name, mode: "insensitive" };
-    if (status) where.status = status;
+    if (status) where.status = status as LeadStatus;
 
-    const leads = await this.leadsRepository.find({ where, sortBy, order, limit, offset });
+    const leads = await this.leadsRepository.find({
+      where,
+      sortBy,
+      order,
+      limit,
+      offset,
+      include: params.include,
+    });
+
     const total = await this.leadsRepository.count(where);
 
     return {

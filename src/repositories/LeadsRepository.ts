@@ -17,17 +17,9 @@ export interface LeadWhereParams {
     mode?: "default" | "insensitive";
   };
   status?: LeadStatus;
-  groups?: {
-    some?: {
-      id?: number;
-    };
-  };
-  campaigns?: {
-    some?: {
-      campaignId?: number;
-      status?: CampaignLeadStatus;
-    };
-  };
+  groupId?: number;
+  campaignId?: number;
+  campaignStatus?: CampaignLeadStatus;
 }
 
 export interface FindLeadsParams {

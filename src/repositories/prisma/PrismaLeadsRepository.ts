@@ -17,8 +17,27 @@ export class PrismaLeadsRepository implements LeadsRepository {
           mode: params.where?.name?.mode,
         },
         status: params.where?.status,
-        campaigns: params.where?.campaigns,
-        groups: params.where?.groups,
+        // conditional for apply filter by campaigns of no
+        ...(params.where?.campaignId || params.where?.campaignStatus
+          ? {
+              campaigns: {
+                some: {
+                  campaignId: params?.where?.campaignId,
+                  status: params?.where?.campaignStatus,
+                },
+              },
+            }
+          : {}),
+        // conditional for apply filter by groups of no
+        ...(params.where?.groupId
+          ? {
+              groups: {
+                some: {
+                  id: params?.where?.groupId,
+                },
+              },
+            }
+          : {}),
       },
       orderBy: { [params.sortBy ?? "name"]: params.order },
       skip: params.offset,
@@ -52,8 +71,27 @@ export class PrismaLeadsRepository implements LeadsRepository {
           mode: where?.name?.mode,
         },
         status: where?.status,
-        campaigns: where?.campaigns,
-        groups: where?.groups,
+        // conditional for apply filter by campaigns of no
+        ...(where?.campaignId || where?.campaignStatus
+          ? {
+              campaigns: {
+                some: {
+                  campaignId: where?.campaignId,
+                  status: where?.campaignStatus,
+                },
+              },
+            }
+          : {}),
+        // conditional for apply filter by groups of no
+        ...(where?.groupId
+          ? {
+              groups: {
+                some: {
+                  id: where?.groupId,
+                },
+              },
+            }
+          : {}),
       },
     });
   }

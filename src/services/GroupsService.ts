@@ -1,10 +1,5 @@
 import { HttpError } from "../errors/HttpError";
-import { GroupsRepository } from "../repositories/GroupsRepository";
-
-interface CreateGroupParams {
-  name: string;
-  description: string;
-}
+import { CreateGroupParams, GroupsRepository } from "../repositories/GroupsRepository";
 
 export class GroupsService {
   constructor(private readonly groupsRepository: GroupsRepository) {}
@@ -33,5 +28,13 @@ export class GroupsService {
     const deletedGroup = await this.groupsRepository.deleteById(id);
     if (!deletedGroup) throw new HttpError(404, "Group not found!");
     return deletedGroup;
+  }
+
+  async addLead(groupId: number, leadId: number) {
+    return this.groupsRepository.addLead(groupId, leadId);
+  }
+
+  async removeLead(groupId: number, leadId: number) {
+    return this.groupsRepository.removeLead(groupId, leadId);
   }
 }
