@@ -1,5 +1,7 @@
 <h1 align="center" style="font-weight: bold;">API de Leads (Documentando...)</h1>
 
+<br/>
+
 <div align="center">
   <img src="https://img.shields.io/badge/typescript-000?style=for-the-badge&logo=typescript" alt="typescript" />
   <img src="https://img.shields.io/badge/Nodejs-000?style=for-the-badge&logo=node.js" alt="nodejs" />
@@ -9,6 +11,8 @@
   <img src="https://img.shields.io/badge/zod-3E67B1?style=for-the-badge&logo=zod" alt="zod" />
   <img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white" alt="postman" />
 </div>
+
+<br/>
 
 <p align="center">
  <a href="#started">Começando</a> • 
