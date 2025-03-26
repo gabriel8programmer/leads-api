@@ -12,6 +12,7 @@ export class LeadsController {
   index: Handler = async (req, res, next) => {
     try {
       const query = GetLeadsRequestSchema.parse(req.query);
+
       const { page = "1", pageSize = "10" } = query;
 
       const result = await this.leadsService.getAllLeadsPaginated({

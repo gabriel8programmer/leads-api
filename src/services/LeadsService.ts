@@ -26,6 +26,8 @@ export class LeadsService {
 
     const where: LeadWhereParams = {};
 
+    console.log(where);
+
     if (name) where.name = { like: name, mode: "insensitive" };
     if (status) where.status = status;
 

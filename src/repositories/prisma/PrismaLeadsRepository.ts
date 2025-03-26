@@ -17,17 +17,8 @@ export class PrismaLeadsRepository implements LeadsRepository {
           mode: params.where?.name?.mode,
         },
         status: params.where?.status,
-        campaigns: {
-          some: {
-            campaignId: params.where?.campaignId,
-            status: params.where?.campaignLeadStatus,
-          },
-        },
-        groups: {
-          some: {
-            id: params.where?.groupId,
-          },
-        },
+        campaigns: params.where?.campaigns,
+        groups: params.where?.groups,
       },
       orderBy: { [params.sortBy ?? "name"]: params.order },
       skip: params.offset,
@@ -61,17 +52,8 @@ export class PrismaLeadsRepository implements LeadsRepository {
           mode: where?.name?.mode,
         },
         status: where?.status,
-        campaigns: {
-          some: {
-            campaignId: where?.campaignId,
-            status: where?.campaignLeadStatus,
-          },
-        },
-        groups: {
-          some: {
-            id: where?.groupId,
-          },
-        },
+        campaigns: where?.campaigns,
+        groups: where?.groups,
       },
     });
   }
