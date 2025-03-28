@@ -119,9 +119,9 @@ As rotas estão divididas em grupos para uma melhor compreensão e coesão.
 
 | route                                           | description                                                                     |
 | ----------------------------------------------- | ------------------------------------------------------------------------------- |
-| <kbd>GET /api/groups/:groupId </kbd>            | Obtem todos leads de um grupo, veja [request details](#get-lead-groups-detail)  |
-| <kbd>POST /api/groups/:groupId </kbd>           | Adiciona um lead a um grupo, veja [request details](#create-lead-groups-detail) |
-| <kbd>DELETE /api/groups/:groupId/:leadId </kbd> | Remove um lead de um grupo, veja [request details](#delete-lead-group-detail)   |
+| <kbd>GET /api/groups/:groupId/leads </kbd>            | Obtem todos leads de um grupo, veja [request details](#get-lead-groups-detail)  |
+| <kbd>POST /api/groups/:groupId/leads </kbd>           | Adiciona um lead a um grupo, veja [request details](#create-lead-groups-detail) |
+| <kbd>DELETE /api/groups/:groupId/leads/:leadId </kbd> | Remove um lead de um grupo, veja [request details](#delete-lead-group-detail)   |
 
 <br />
 
@@ -129,10 +129,10 @@ As rotas estão divididas em grupos para uma melhor compreensão e coesão.
 
 | route                                              | description                                                                                               |
 | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| <kbd>GET /api/campaigns/:groupId </kbd>            | Obtem todos leads de uma campanha, veja [request details](#get-lead-campaigns-detail)                     |
-| <kbd>POST /api/campaigns/:groupId </kbd>           | Adiciona um lead a uma campanha, veja [request details](#create-lead-campaigns-detail)                    |
-| <kbd>PUT /api/campaigns/:groupId/:leadId </kbd>    | Atualiza o status de um lead em uma campanha, veja [request details](#update-lead-status-campaign-detail) |
-| <kbd>DELETE /api/campaigns/:groupId/:leadId </kbd> | Remove um lead de uma campanha, veja [request details](#delete-lead-campaign-detail)                      |
+| <kbd>GET /api/campaigns/:campaignId/leads </kbd>            | Obtem todos leads de uma campanha, veja [request details](#get-lead-campaigns-detail)                     |
+| <kbd>POST /api/campaigns/:campaignId/leads </kbd>           | Adiciona um lead a uma campanha, veja [request details](#create-lead-campaigns-detail)                    |
+| <kbd>PUT /api/campaigns/:campaignId/:leadId </kbd>    | Atualiza o status de um lead em uma campanha, veja [request details](#update-lead-status-campaign-detail) |
+| <kbd>DELETE /api/campaigns/:campaignId/:leadId </kbd> | Remove um lead de uma campanha, veja [request details](#delete-lead-campaign-detail)                      |
 
 <br />
 
@@ -176,8 +176,210 @@ As rotas estão divididas em grupos para uma melhor compreensão e coesão.
         "status": "New",
         "createdAt": "2025-03-26T20:11:34.150Z",
         "updatedAt": "2025-03-26T20:11:34.150Z",
-        "campaigns": [],
-        "groups": []
+        "campaigns": [
+            {
+                "campaignId": 1,
+                "leadId": 1,
+                "status": "New"
+            }
+        ],
+        "groups": [
+            {
+                "id": 1,
+                "name": "Grupo A",
+                "description": "Grupo A..."
+            }
+        ]
     }
 }
 ```
+
+<h3 id="create-leads-detail">POST api/leads </h3>
+
+**REQUEST**
+
+```json
+{
+    "name": "John Doe",
+    "email": "john@gmail.com",
+    "phone": "00000-0000",
+    "status": "New"
+}
+```
+
+**RESPONSE**
+
+```json
+{
+    "id": 2,
+    "name": "John Doe",
+    "email": "john@gmail.com",
+    "phone": "00000-0000",
+    "status": "New",
+    "createdAt": "2025-03-28T22:15:49.122Z",
+    "updatedAt": "2025-03-28T22:15:49.122Z"
+}
+```
+
+<h3 id="update-single-lead-detail">PUT api/leads/:id </h3>
+
+**REQUEST**
+
+```json
+{
+    "name": "John Doe Updated",
+    "email": "johnupdated@gmail.com",
+    "phone": "00000-0001",
+    "status": "Contacted"
+}
+```
+
+**RESPONSE**
+
+```json
+{
+    "updatedLead": {
+        "id": 2,
+        "name": "John Doe Updated",
+        "email": "johnupdated@gmail.com",
+        "phone": "00000-0001",
+        "status": "Contacted",
+        "createdAt": "2025-03-28T22:15:49.122Z",
+        "updatedAt": "2025-03-28T22:19:26.314Z"
+    }
+}
+```
+
+<h3 id="delete-single-lead-detail">DELETE api/leads/:id </h3>
+
+**RESPONSE**
+
+```json
+{
+    "deletedLead": {
+        "id": 3,
+        "name": "John Doe",
+        "email": "john@gmail.com",
+        "phone": "00000-0000",
+        "status": "New",
+        "createdAt": "2025-03-28T22:21:09.072Z",
+        "updatedAt": "2025-03-28T22:21:09.072Z"
+    }
+}
+```
+
+<h3 id="get-groups-detail">GET api/groups</h3>
+
+**RESPONSE**
+
+```json
+[
+    {
+        "id": 1,
+        "name": "Grupo A",
+        "description": "Grupo A..."
+    }
+]
+```
+
+<h3 id="get-single-group-detail">GET api/groups/:id</h3>
+
+**RESPONSE**
+
+```json
+{
+    "id": 1,
+    "name": "Grupo A",
+    "description": "Grupo A...",
+    "leads": [
+        {
+            "id": 1,
+            "name": "Gabriel",
+            "email": "gabriel@gmail.com",
+            "phone": "00000-0000",
+            "status": "New",
+            "createdAt": "2025-03-26T20:11:34.150Z",
+            "updatedAt": "2025-03-26T20:11:34.150Z"
+        }
+    ]
+}
+```
+
+<h3 id="create-groups-detail">POST api/groups</h3>
+
+**REQUEST**
+
+```json
+{
+    "name": "Grupo C",
+    "description": "Grupo C..."
+}
+```
+
+**RESPONSE**
+
+```json
+{
+    "newGroup": {
+        "id": 4,
+        "name": "Grupo C",
+        "description": "Grupo C..."
+    }
+}
+```
+
+<h3 id="update-single-group-detail">PUT api/groups/:id</h3>
+
+**REQUEST**
+
+```json
+{
+    "name": "Grupo D",
+    "description": "Grupo D"
+}
+```
+
+**RESPONSE**
+
+```json
+{
+    "updatedGroup": {
+        "id": 4,
+        "name": "Grupo D",
+        "description": "Grupo D"
+    }
+}
+```
+
+<h3 id="delete-single-group-detail">DELETE api/groups/:id</h3>
+
+**RESPONSE**
+
+```json
+{
+    "deletedGroup": {
+        "id": 4,
+        "name": "Grupo D",
+        "description": "Grupo D"
+    }
+}
+```
+
+
+<h3 id="get-campaigns-detail">GET api/campaigns</h3>
+<h3 id="get-single-campaign-detail">GET api/campaings/:id</h3>
+<h3 id="create-campaigns-detail">POST api/campaigns<h3>
+<h3 id="update-single-campaign-detail">PUT api/campaings/:id</h3>
+<h3 id="delete-single-campaign-detail">DELETE api/campaigns/:id</h3>
+
+<h3 id="get-lead-groups-detail">GET api/groups/:groupId/leads</h3>
+<h3 id="create-lead-groups-detail">POST api/groups/:groupId/leads</h3>
+<h3 id="delete-lead-group-detail">DELETE api/groups/:groupId/leads/:leadId</h3>
+
+<h3 id="get-lead-campaigns-detail">GET api/campaigns/:campaignId/leads</h3>
+<h3 id="create-lead-campaigns-detail">POST api/campaigns/:campaignId/leads <h3>
+<h3 id="update-lead-campaign-detail">PUT api/campaings/:campaignId/leads/:leadId</h3>
+<h3 id="delete-lead-campaign-detail">DELETE api/campaigns/:campaignId/leads/:leadId</h3>
+
+
+
