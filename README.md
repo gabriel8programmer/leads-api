@@ -5,7 +5,6 @@
 <div align="center">
   <img src="https://img.shields.io/badge/typescript-000?style=for-the-badge&logo=typescript" alt="typescript" />
   <img src="https://img.shields.io/badge/Nodejs-000?style=for-the-badge&logo=node.js" alt="nodejs" />
-  <img src="https://img.shields.io/badge/tsnode-000?style=for-the-badge&logo=tsnode" alt="tsnode" />
   <img src="https://img.shields.io/badge/express-000?style=for-the-badge&logo=express" alt="express" />
   <img src="https://img.shields.io/badge/prisma-2D3748?style=for-the-badge&logo=prisma" alt="prisma" />
   <img src="https://img.shields.io/badge/zod-3E67B1?style=for-the-badge&logo=zod" alt="zod" />
@@ -380,6 +379,8 @@ As rotas estão divididas em grupos para uma melhor compreensão e coesão.
 <h3 id="create-lead-campaigns-detail">POST api/campaigns/:campaignId/leads <h3>
 <h3 id="update-lead-campaign-detail">PUT api/campaings/:campaignId/leads/:leadId</h3>
 <h3 id="delete-lead-campaign-detail">DELETE api/campaigns/:campaignId/leads/:leadId</h3>
+
+
 
 
 
