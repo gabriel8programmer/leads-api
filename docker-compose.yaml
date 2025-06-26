@@ -1,0 +1,14 @@
+services:
+  postgresql:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: db_rentals
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgres/data
+
+volumes:
+  postgres_data:

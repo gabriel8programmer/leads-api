@@ -1,0 +1,479 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Leads API",
+    "description": "Api de leads, grupos e campanhas"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api",
+      "description": "API de Teste (Local)"
+    }
+  ],
+  "paths": {
+    "/leads": {
+      "get": {
+        "summary": "Obter leads",
+        "description": "Obter todos os leads",
+        "tags": ["Leads"],
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadsPaginatedResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar novo lead",
+        "description": "Criar novo lead",
+        "tags": ["Leads"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLeadBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/leads/{id}": {
+      "get": {
+        "summary": "Obter lead",
+        "description": "Obter lead pelo id",
+        "tags": ["Leads"],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "id do lead",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadPopulatedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um lead",
+        "description": "Atualizar um lead pelo id",
+        "tags": ["Leads"],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "id do lead",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLeadBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remover um lead",
+        "description": "Remover um lead pelo id",
+        "tags": ["Leads"],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "id do lead",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadResponse"
+                }
+              }
+            }
+          },
+          "404": { "description": "Not found" }
+        }
+      }
+    },
+    "/groups": {
+      "get": {
+        "summary": "Obter grupos",
+        "description": "Obter todos os grupos",
+        "tags": ["Groups"]
+      },
+      "post": {
+        "summary": "Criar grupo",
+        "description": "Criar grupo",
+        "tags": ["Groups"]
+      }
+    },
+    "/groups/{id}": {
+      "get": {
+        "summary": "Obter grupo",
+        "description": "Obter grupo pelo seu id",
+        "tags": ["Groups"],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "id do grupo",
+            "in": "path",
+            "required": true
+          }
+        ]
+      },
+      "put": {
+        "summary": "Atualizar grupo",
+        "description": "Atualizar grupo pelo seu id",
+        "tags": ["Groups"],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "id do grupo",
+            "in": "path",
+            "required": true
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Remover grupo",
+        "description": "Remover grupo pelo seu id",
+        "tags": ["Groups"],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "id do grupo",
+            "in": "path",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/groups/{groupId}/leads": {
+      "get": {
+        "summary": "Obter leads de um grupo",
+        "description": "Obter leads de um grupo pelo seu id",
+        "tags": ["Group's Leads"],
+        "parameters": [
+          {
+            "name": "groupId",
+            "description": "id do grupo",
+            "in": "path",
+            "required": true
+          }
+        ]
+      },
+      "post": {
+        "summary": "Criar lead em um grupo",
+        "description": "Criar lead em um grupo pelo seu id",
+        "tags": ["Group's Leads"],
+        "parameters": [
+          {
+            "name": "groupId",
+            "description": "id do grupo",
+            "in": "path",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/groups/{groupId}/leads/{leadId}": {
+      "delete": {
+        "summary": "Remover lead de um grupo",
+        "description": "Remover lead de um grupo pelo seu id",
+        "tags": ["Group's Leads"],
+        "parameters": [
+          {
+            "name": "groupId",
+            "description": "id do grupo",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "leadId",
+            "description": "id do lead",
+            "in": "path",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/campaigns": {
+      "get": {
+        "summary": "Obter campanhas",
+        "description": "Obter todas as campanhas",
+        "tags": ["Campaigns"]
+      },
+      "post": {
+        "summary": "Criar campanha",
+        "description": "Criar campanha",
+        "tags": ["Campaigns"]
+      }
+    },
+    "/campaigns/{id}": {
+      "get": {
+        "summary": "Obter campanha",
+        "description": "Obter campanha pelo seu id",
+        "tags": ["Campaigns"],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "id da campanha",
+            "in": "path",
+            "required": true
+          }
+        ]
+      },
+      "put": {
+        "summary": "Atualizar campanha",
+        "description": "Atualizar campanha pelo seu id",
+        "tags": ["Campaigns"],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "id da campanha",
+            "in": "path",
+            "required": true
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Remover campanha",
+        "description": "Remover campanha pelo seu id",
+        "tags": ["Campaigns"],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "id da campanha",
+            "in": "path",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/campaigns/{campaignId}/leads": {
+      "get": {
+        "summary": "Obter leads de uma campanha",
+        "description": "Obter leads de uma campanha pelo seu id",
+        "tags": ["Campaign's Leads"],
+        "parameters": [
+          {
+            "name": "campaignId",
+            "description": "id da campanha",
+            "in": "path",
+            "required": true
+          }
+        ]
+      },
+      "post": {
+        "summary": "Criar lead em uma campanha",
+        "description": "Criar lead em uma campanha pelo seu id",
+        "tags": ["Campaign's Leads"],
+        "parameters": [
+          {
+            "name": "campaignId",
+            "description": "id da campanha",
+            "in": "path",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/campaigns/{campaignId}/leads/{leadId}": {
+      "put": {
+        "summary": "Atualizar lead de uma campanha",
+        "description": "Atualizar lead de uma campanha pelo seu id",
+        "tags": ["Campaign's Leads"],
+        "parameters": [
+          {
+            "name": "campaignId",
+            "description": "id da campanha",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "leadId",
+            "description": "id do lead",
+            "in": "path",
+            "required": true
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Remover lead de uma campanha",
+        "description": "Remover lead de uma campanha pelo seu id",
+        "tags": ["Campaign's Leads"],
+        "parameters": [
+          {
+            "name": "campaignId",
+            "description": "id da campanha",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "leadId",
+            "description": "id do lead",
+            "in": "path",
+            "required": true
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LeadStatus": {
+        "type": "string",
+        "enum": [
+          "New",
+          "Contacted",
+          "Qualified",
+          "Converted",
+          "Unresponsive",
+          "Disqualified",
+          "Archived"
+        ]
+      },
+      "CreateLeadBody": {
+        "type": "object",
+        "required": ["name", "email", "phone"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/LeadStatus"
+          }
+        }
+      },
+      "UpdateLeadBody": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/LeadStatus"
+          }
+        }
+      },
+      "LeadResponse": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "phone": { "type": "string" },
+          "status": { "$ref": "#/components/schemas/LeadStatus" },
+          "createdAt": { "type": "string", "format": "date" },
+          "updatedAt": { "type": "string", "format": "date" }
+        }
+      },
+      "LeadPopulatedResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/LeadResponse" },
+          {
+            "type": "object",
+            "properties": {
+              "campaigns": { "type": "array" },
+              "groups": { "type": "array" }
+            }
+          }
+        ]
+      },
+      "CampaignResponse": {},
+      "GroupResponse": {},
+
+      "LeadsPaginatedResponse": {
+        "type": "object",
+        "properties": {
+          "leads": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LeadResponse"
+            }
+          },
+          "meta": {
+            "type": "object",
+            "properties": {
+              "page": { "type": "number" },
+              "pageSize": { "type": "number" },
+              "total": { "type": "number" },
+              "totalPages": { "type": "number" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
