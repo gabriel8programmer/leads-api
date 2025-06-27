@@ -1,11 +1,11 @@
-import { Lead } from "@prisma/client";
+import { Lead } from '@prisma/client'
 import {
   CreateLeadParams,
   FindLeadsParams,
   LeadsRepository,
   LeadWhereParams,
-} from "../LeadsRepository";
-import prisma from "../../database";
+} from '../LeadsRepository'
+import prisma from '../../database'
 
 export class PrismaLeadsRepository implements LeadsRepository {
   async find(params: FindLeadsParams): Promise<Lead[]> {
@@ -39,27 +39,27 @@ export class PrismaLeadsRepository implements LeadsRepository {
             }
           : {}),
       },
-      orderBy: { [params.sortBy ?? "name"]: params.order },
+      orderBy: { [params.sortBy ?? 'name']: params.order },
       skip: params.offset,
       take: params.limit,
       include: {
         groups: params.include?.groups,
         campaigns: params.include?.campaigns,
       },
-    });
+    })
   }
 
   async findById(id: number): Promise<Lead | null> {
     return prisma.lead.findUnique({
       where: { id },
       include: { campaigns: true, groups: true },
-    });
+    })
   }
 
   async create(params: CreateLeadParams): Promise<Lead> {
     return prisma.lead.create({
       data: params,
-    });
+    })
   }
 
   async count(where: LeadWhereParams): Promise<number> {
@@ -93,7 +93,7 @@ export class PrismaLeadsRepository implements LeadsRepository {
             }
           : {}),
       },
-    });
+    })
   }
 
   async updateById(id: number, params: Partial<CreateLeadParams>): Promise<Lead | null> {
@@ -102,10 +102,10 @@ export class PrismaLeadsRepository implements LeadsRepository {
         id,
       },
       data: params,
-    });
+    })
   }
 
   async deleteById(id: number): Promise<Lead | null> {
-    return prisma.lead.delete({ where: { id } });
+    return prisma.lead.delete({ where: { id } })
   }
 }

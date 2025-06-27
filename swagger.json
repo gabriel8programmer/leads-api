@@ -49,7 +49,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LeadResponse"
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Lead created sucessfuly!"
+                    },
+                    "lead": {
+                      "$ref": "#/components/schemas/LeadResponse"
+                    }
+                  }
                 }
               }
             }
@@ -113,7 +122,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LeadResponse"
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Lead updated successfuly!"
+                    },
+                    "lead": {
+                      "$ref": "#/components/schemas/LeadResponse"
+                    }
+                  }
                 }
               }
             }
@@ -144,7 +162,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LeadResponse"
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Lead deleted sucessfuly!"
+                    },
+                    "lead": {
+                      "$ref": "#/components/schemas/LeadResponse"
+                    }
+                  }
                 }
               }
             }
@@ -157,12 +184,57 @@
       "get": {
         "summary": "Obter grupos",
         "description": "Obter todos os grupos",
-        "tags": ["Groups"]
+        "tags": ["Groups"],
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       "post": {
         "summary": "Criar grupo",
         "description": "Criar grupo",
-        "tags": ["Groups"]
+        "tags": ["Groups"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGroupBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Group created successfuly!"
+                    },
+                    "group": {
+                      "$ref": "#/components/schemas/GroupResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/groups/{id}": {
@@ -177,7 +249,22 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupPopulatedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
       },
       "put": {
         "summary": "Atualizar grupo",
@@ -190,7 +277,40 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGroupBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Group updated successfuly!"
+                    },
+                    "group": {
+                      "$ref": "#/components/schemas/GroupResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
       },
       "delete": {
         "summary": "Remover grupo",
@@ -203,7 +323,31 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Group deleted successfuly!"
+                    },
+                    "group": {
+                      "$ref": "#/components/schemas/GroupResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
       }
     },
     "/groups/{groupId}/leads": {
@@ -218,7 +362,19 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupLeadsPaginatedResponse"
+                }
+              }
+            }
+          }
+        }
       },
       "post": {
         "summary": "Criar lead em um grupo",
@@ -231,7 +387,46 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["leadId"],
+                "properties": {
+                  "leadId": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Lead saved in group successfuly!"
+                    },
+                    "lead": {
+                      "$ref": "#/components/schemas/LeadResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
       }
     },
     "/groups/{groupId}/leads/{leadId}": {
@@ -252,19 +447,88 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Lead removed from group successfuly!"
+                    },
+                    "lead": {
+                      "$ref": "#/components/schemas/LeadResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
       }
     },
     "/campaigns": {
       "get": {
         "summary": "Obter campanhas",
         "description": "Obter todas as campanhas",
-        "tags": ["Campaigns"]
+        "tags": ["Campaigns"],
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CampaignResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       "post": {
         "summary": "Criar campanha",
         "description": "Criar campanha",
-        "tags": ["Campaigns"]
+        "tags": ["Campaigns"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCampaignBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Campaign created successfuly!"
+                    },
+                    "campaign": {
+                      "$ref": "#/components/schemas/CampaignResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/campaigns/{id}": {
@@ -279,7 +543,22 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CampaignPopulatedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
       },
       "put": {
         "summary": "Atualizar campanha",
@@ -292,7 +571,40 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCampaignBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Campaign updated successfuly!"
+                    },
+                    "campaign": {
+                      "$ref": "#/components/schemas/CampaignResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
       },
       "delete": {
         "summary": "Remover campanha",
@@ -305,7 +617,31 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Campaign deleted successfuly!"
+                    },
+                    "campaign": {
+                      "$ref": "#/components/schemas/CampaignResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
       }
     },
     "/campaigns/{campaignId}/leads": {
@@ -320,7 +656,19 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CampaignLeadsPaginatedResponse"
+                }
+              }
+            }
+          }
+        }
       },
       "post": {
         "summary": "Criar lead em uma campanha",
@@ -333,7 +681,40 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCampaignLeadBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Lead saved in campaign successfuly!"
+                    },
+                    "campaignLead": {
+                      "$ref": "#/components/schemas/CampaignLeadResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
       }
     },
     "/campaigns/{campaignId}/leads/{leadId}": {
@@ -354,7 +735,43 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusCampaignLeadBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Campaign lead status updated successfuly!"
+                    },
+                    "campaignLead": {
+                      "$ref": "#/components/schemas/CampaignLeadResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found!"
+          }
+        }
       },
       "delete": {
         "summary": "Remover lead de uma campanha",
@@ -373,7 +790,31 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "OK!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Lead removed from campaign!"
+                    },
+                    "campaignLead": {
+                      "$ref": "#/components/schemas/CampaignLeadResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
       }
     }
   },
@@ -389,6 +830,21 @@
           "Unresponsive",
           "Disqualified",
           "Archived"
+        ]
+      },
+      "CampaignLeadStatus": {
+        "type": "string",
+        "enum": [
+          "New",
+          "Engaged",
+          "FollowUp_Scheduled",
+          "Contacted",
+          "Qualified",
+          "Converted",
+          "Unresponsive",
+          "Disqualified",
+          "Re_Engaged",
+          "Opted_Out"
         ]
       },
       "CreateLeadBody": {
@@ -427,6 +883,40 @@
           }
         }
       },
+      "CreateGroupBody": {
+        "type": "object",
+        "required": ["name", "description"],
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      },
+      "UpdateGroupBody": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      },
+      "CreateCampaignBody": {
+        "type": "object",
+        "required": ["name", "description"],
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "startDate": { "type": "string", "format": "date" },
+          "endDate": { "type": "string", "format": "date" }
+        }
+      },
+      "UpdateCampaignBody": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "startDate": { "type": "string", "format": "date" },
+          "endDate": { "type": "string", "format": "date" }
+        }
+      },
       "LeadResponse": {
         "type": "object",
         "properties": {
@@ -439,20 +929,120 @@
           "updatedAt": { "type": "string", "format": "date" }
         }
       },
+      "GroupResponse": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "name": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      },
+      "GroupPopulatedResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/GroupResponse" },
+          {
+            "type": "object",
+            "properties": {
+              "leads": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/LeadResponse"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "CampaignResponse": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "startDate": { "type": "string", "format": "date" },
+          "endDate": { "type": "string", "format": "date" }
+        }
+      },
+      "CampaignPopulatedResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/CampaignResponse" },
+          {
+            "type": "object",
+            "properties": {
+              "leads": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/LeadResponse"
+                }
+              }
+            }
+          }
+        ]
+      },
       "LeadPopulatedResponse": {
+        "type": "object",
         "allOf": [
           { "$ref": "#/components/schemas/LeadResponse" },
           {
             "type": "object",
             "properties": {
-              "campaigns": { "type": "array" },
-              "groups": { "type": "array" }
+              "campaigns": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CampaignResponse"
+                }
+              },
+              "groups": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/GroupResponse"
+                }
+              }
             }
           }
         ]
       },
-      "CampaignResponse": {},
-      "GroupResponse": {},
+      "LeadWithGroups": {
+        "allOf": [
+          { "$ref": "#/components/schemas/LeadResponse" },
+          {
+            "type": "object",
+            "properties": {
+              "groups": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/GroupResponse"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "LeadWithCampaigns": {
+        "allOf": [
+          { "$ref": "#/components/schemas/LeadResponse" },
+          {
+            "type": "object",
+            "properties": {
+              "campaigns": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CampaignResponse"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "PaginationMeta": {
+        "type": "object",
+        "properties": {
+          "page": { "type": "number" },
+          "pageSize": { "type": "number" },
+          "total": { "type": "number" },
+          "totalPages": { "type": "number" }
+        }
+      },
 
       "LeadsPaginatedResponse": {
         "type": "object",
@@ -464,14 +1054,59 @@
             }
           },
           "meta": {
-            "type": "object",
-            "properties": {
-              "page": { "type": "number" },
-              "pageSize": { "type": "number" },
-              "total": { "type": "number" },
-              "totalPages": { "type": "number" }
-            }
+            "$ref": "#/components/schemas/PaginationMeta"
           }
+        }
+      },
+      "GroupLeadsPaginatedResponse": {
+        "type": "object",
+        "properties": {
+          "leads": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LeadWithGroups"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/PaginationMeta"
+          }
+        }
+      },
+      "CampaignLeadsPaginatedResponse": {
+        "type": "object",
+        "properties": {
+          "leads": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LeadWithCampaigns"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/PaginationMeta"
+          }
+        }
+      },
+      "CreateCampaignLeadBody": {
+        "type": "object",
+        "required": ["campaignId", "leadId"],
+        "properties": {
+          "campaignId": { "type": "number" },
+          "leadId": { "type": "number" },
+          "status": { "$ref": "#/components/schemas/CampaignLeadStatus" }
+        }
+      },
+      "UpdateStatusCampaignLeadBody": {
+        "type": "object",
+        "properties": {
+          "status": { "$ref": "#/components/schemas/CampaignLeadStatus" }
+        }
+      },
+      "CampaignLeadResponse": {
+        "type": "object",
+        "properties": {
+          "campaignId": { "type": "number" },
+          "leadId": { "type": "number" },
+          "status": { "$ref": "#/components/schemas/CampaignLeadStatus" }
         }
       }
     }

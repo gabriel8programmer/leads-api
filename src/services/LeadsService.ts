@@ -71,6 +71,12 @@ export class LeadsService {
     return this.leadsRepository.create(params)
   }
 
+  async validateLeadById(id: number) {
+    const lead = await this.leadsRepository.findById(id)
+    if (!lead) throw new HttpError(404, 'Lead not found!')
+    return lead
+  }
+
   async getLeadById(id: number) {
     const lead = await this.leadsRepository.findById(id)
     if (!lead) throw new HttpError(404, 'Lead not found!')
