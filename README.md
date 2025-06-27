@@ -18,7 +18,6 @@
 <p align="center">
  <a href="#started">Começando</a> • 
   <a href="#routes">Endpoints da API</a> •
-  <a href="#docs">Documentação</a> •
   <a href="#dev">Desenvolvedor</a>
 </p>
 
@@ -76,8 +75,20 @@ npm run db:create #cria as tabelas necessárias para o banco
 npm run dev #inicia o projeto localmente na porta 3000
 ```
 
-Após isso, acesse a URL <a href="http://localhost:3000">http://localhost:3000</a> e o projeto estará rodando.
-Ou, se preferir, acesse a URL <a href="http://localhost:3000/docs">http://localhost:3000/docs</a> para testar o projeto com swagger
+Após isso, acesse a URL http://localhost:3000 e o projeto estará rodando.
+
+### Testando o Projeto
+
+Você pode testar a API utilizando a ferramenta de sua preferência, como:
+
+- [Postman](https://www.postman.com/)
+- [Insomnia](https://insomnia.rest/)
+
+### Recomendação: Testes via Swagger (API Interativa)
+
+A forma mais simples de explorar e testar os endpoints da aplicação é através da interface interativa do Swagger, disponível em:
+
+[http://localhost:3000/docs](http://localhost:3000/docs)
 
 <h2 id="routes">📍 Endpoints da API</h2>
 
@@ -139,12 +150,6 @@ As rotas estão divididas em grupos para uma melhor compreensão e coesão.
 | <kbd>POST /api/campaigns/:campaignId/leads </kbd>     | Adiciona um lead a uma campanha, veja [request details](#)              |
 | <kbd>PUT /api/campaigns/:campaignId/:leadId </kbd>    | Atualiza o status de um lead em uma campanha, veja [request details](#) |
 | <kbd>DELETE /api/campaigns/:campaignId/:leadId </kbd> | Remove um lead de uma campanha, veja [request details](#)               |
-
-<h2 id="docs">Documentação</h2>
-
-<h3>Documentação interativa com Swagger</h3>
-
-[![Swagger](https://img.shields.io/badge/Swagger-4323d5.svg?style=for-the-badge&logo=Swagger&logoColor=white)](#)
 
 <h2 id="dev">Desenvolvedor</h2>
 
